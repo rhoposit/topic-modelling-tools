@@ -13,3 +13,5 @@ script: python topicmodel_tests/testsuite.py
 branches:
   only:
     - master
+    - with_gsl
+    

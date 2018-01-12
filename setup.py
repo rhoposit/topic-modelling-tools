@@ -25,7 +25,7 @@ if sys.platform == "win32":
          "anaconda\\gsl\\include"
     lib_gsl_dir = sys.exec_prefix.lower().split("anaconda2")[0] + \
          "anaconda\\gsl\\lib"
-elif "win" in sys.platform:
+elif sys.platform.startswith("win"):
     include_gsl_dir = sys.exec_prefix+"\\include"
     lib_gsl_dir = sys.exec_prefix+"\\lib"
 else:
