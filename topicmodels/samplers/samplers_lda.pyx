@@ -25,25 +25,25 @@ ctypedef np.float_t FTYPE_t
 # uniform random number generator
 #####################
 
-#=#cdef extern from "gsl/gsl_rng.h":
-#=#    ctypedef struct gsl_rng_type:
-#=#        pass
-#=#    ctypedef struct gsl_rng:
-#=#        pass
-#=#    gsl_rng_type *gsl_rng_mt19937
-#=#    gsl_rng *gsl_rng_alloc(gsl_rng_type * T)
-#=#
-#=#    #Initialize seed 
-#=#    void gsl_rng_set(gsl_rng* r, unsigned long int seed)
-#=#    double gsl_rng_uniform(gsl_rng * r)
-#=#	
-#=#
-#=#cdef gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937)
-#=#
-#=##Execute gsl_rng_set with a large number (time) which reasonably
-#=##can be assumed to be unique to avoid similar sequences
-#=#gsl_rng_set(r, <unsigned long> time.time()*256)
-#=#
+cdef extern from "gsl/gsl_rng.h":
+    ctypedef struct gsl_rng_type:
+        pass
+    ctypedef struct gsl_rng:
+        pass
+    gsl_rng_type *gsl_rng_mt19937
+    gsl_rng *gsl_rng_alloc(gsl_rng_type * T)
+
+    #Initialize seed 
+    void gsl_rng_set(gsl_rng* r, unsigned long int seed)
+    double gsl_rng_uniform(gsl_rng * r)
+	
+
+cdef gsl_rng *r = gsl_rng_alloc(gsl_rng_mt19937)
+
+#Execute gsl_rng_set with a large number (time) which reasonably
+#can be assumed to be unique to avoid similar sequences
+gsl_rng_set(r, <unsigned long> time.time()*256)
+
 
 cdef int multinomial_sample( double* p, int K ):
 
@@ -52,10 +52,10 @@ cdef int multinomial_sample( double* p, int K ):
     """
 
     cdef int new_topic
-#=#    cdef double rnd = gsl_rng_uniform(r)*p[K-1]
+    cdef double rnd = gsl_rng_uniform(r)*p[K-1]
     # code for using GSL random number generator
 
-    cdef double rnd = np.random.random_sample()*p[K-1]
+#=#    cdef double rnd = np.random.random_sample()*p[K-1]
     # uncomment this code to use numpy rather than gsl
 
     for new_topic in range(K):

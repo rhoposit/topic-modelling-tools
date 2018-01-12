@@ -1,11 +1,13 @@
 import sys
+import os
+import getpass
 from setuptools import setup
 from setuptools.extension import Extension
 
 ### unit tests for this package
 import topicmodel_tests
 
-### set include dirs for numpy
+### set include dirs for numpy and gsl
 
 try:
     import numpy
@@ -16,6 +18,29 @@ except ImportError:
 else:
     numpy_already_installed = True 
     include_numpy_dir = numpy.get_include()   
+
+#  GSL Library
+if sys.platform == "win32":
+    include_gsl_dir = sys.exec_prefix.lower().split("anaconda2")[0] + \
+         "anaconda\\gsl\\include"
+    lib_gsl_dir = sys.exec_prefix.lower().split("anaconda2")[0] + \
+         "anaconda\\gsl\\lib"
+elif "win" in sys.platform:
+    include_gsl_dir = sys.exec_prefix+"\\include"
+    lib_gsl_dir = sys.exec_prefix+"\\lib"
+else:
+    
+### gsl will be in a different place depending on whether it was installed
+### by e.g. conda or homebrew, or apt-get
+    
+    if os.path.exists("/usr/local/include/gsl"):
+        include_gsl_dir = "/usr/local/include/"
+        lib_gsl_dir = "/usr/local/lib/"
+    elif os.path.exists(sys.exec_prefix+"/include/gsl"):
+        include_gsl_dir = sys.exec_prefix+"/include"
+        lib_gsl_dir = sys.exec_prefix+"/lib"        
+        pass
+    pass
 
 
 
@@ -33,30 +58,29 @@ else:
 cmdclass = { }
 ext_modules = [ ]
 
+
 if use_cython:
-    ext_modules += [
-        Extension("topicmodels.samplers.samplers_lda",
-                  ["topicmodels/samplers/samplers_lda.pyx"],
-                  include_dirs=[
-                      include_numpy_dir,
-                  ],
-        )
-    ]
+    file_extension = ".pyx"
     cmdclass.update({ 'build_ext': build_ext })
 else:
-    ext_modules += [
-        Extension("topicmodels.samplers.samplers_lda",
-                  ["topicmodels/samplers/samplers_lda.c"],
-                  include_dirs=[
-                      include_numpy_dir,
-                  ],                  
-        )
-    ]
+    file_extension = ".c"
+    
+ext_modules += [
+    Extension("topicmodels.samplers.samplers_lda",
+              ["topicmodels/samplers/samplers_lda"+file_extension],
+              include_dirs=[
+                  include_numpy_dir,
+                  include_gsl_dir
+              ],
+              library_dirs=[lib_gsl_dir],
+              libraries = ["gsl","gslcblas","m"]
+    )
+]
 
-setup(name = "topic-modelling-tools",
-      version="0.6dev",
+setup(name = "topic-modelling-tools_gsl",
+      version="0.7dev",
       author="Stephen Hansen",
-      url="https://github.com/alan-turing-institute/topic-modelling-tools",
+      url="https://github.com/alan-turing-institute/topic-modelling-tools/tree/with_gsl",
       author_email="stephen.hansen@economics.ox.ac.uk",
       ext_modules=ext_modules,
       packages=['topicmodels', 'topicmodel_tests', 'topicmodels.LDA', 'topicmodels.multimix','topicmodels.samplers'],
