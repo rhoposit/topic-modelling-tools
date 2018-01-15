@@ -6,7 +6,8 @@ python:
   - "3.6"  
 # command to install dependencies
 install:
-   - sudo apt-get --yes --force-yes install gsl
+   - sudo apt-get -y update
+   - sudo apt-get -y install gsl
    - pip install -r requirements.txt
    - python setup.py build_ext
    - python setup.py install
