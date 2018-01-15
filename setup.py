@@ -40,6 +40,8 @@ else:
         include_gsl_dir = sys.exec_prefix+"/include"
         lib_gsl_dir = sys.exec_prefix+"/lib"        
         pass
+    else:
+        print("Please install gsl, with e.g. conda install gsl, or apt-get install gsl")
     pass
 
 
