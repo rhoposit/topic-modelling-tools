@@ -37,6 +37,10 @@ else:
         include_gsl_dir = "/usr/local/include/"
         lib_gsl_dir = "/usr/local/lib/"
         print("GSL is in /usr/local/")
+        if os.path.exists(lib_gsl_dir+"libgsl.so"):
+            print("Found GSL shared library")
+        else:
+            print("Didn't find GSL shared library.")
     elif os.path.exists(sys.exec_prefix+"/include/gsl"):
         include_gsl_dir = sys.exec_prefix+"/include"
         lib_gsl_dir = sys.exec_prefix+"/lib"        
