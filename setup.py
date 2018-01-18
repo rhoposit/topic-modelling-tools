@@ -41,7 +41,7 @@ else:
         lib_gsl_dir = sys.exec_prefix+"/lib"        
         pass
     else:
-        print("Please install gsl, with e.g. conda install gsl, or apt-get install gsl")
+        print("Please install gsl, with e.g. conda install gsl")
     pass
 
 
@@ -79,7 +79,7 @@ ext_modules += [
     )
 ]
 
-setup(name = "topic-modelling-tools_gsl",
+setup(name = "topic-modelling-tools_fast",
       version="0.7dev",
       author="Stephen Hansen",
       url="https://github.com/alan-turing-institute/topic-modelling-tools/tree/with_gsl",
