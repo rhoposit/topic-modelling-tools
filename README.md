@@ -23,7 +23,7 @@ do `conda install gsl`.
 (For a version that doesn't require GSL (but is somewhat slower), checkout the
 "master" branch of this repository, or `pip install topic-modelling-tools`.)
 
-If you already have GSL, Python and pip installed, `pip install topic-modelling-tools_gsl`
+If you already have GSL, Python and pip installed, `pip install topic-modelling-tools_fast`
 should work.  The package depends on some other python libraries such as
 numpy and nltk but this should be taken care of by pip.
 
