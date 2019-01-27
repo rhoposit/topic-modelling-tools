@@ -153,7 +153,7 @@ must be passed to RawDocs")
 
         """
         Calculate corpus-level df and tf-idf scores on either tokens (items =
-        "tokens") or stems (items = "stems"). Print to file if
+        "tokens") bigrams (items = 'bigrams') or stems (items = "stems"). Print to file if
         print_output = True.
         """
 
@@ -161,6 +161,10 @@ must be passed to RawDocs")
             v = self.stems
         elif items == 'tokens':
             v = self.tokens
+        elif items == 'bigrams':
+            v = self.bigrams
+        else:
+            raise ValueError("Items must be either \'tokens\' , \'bigrams\' or \'stems\'.")
 
         agg = itertools.chain(*v)
         counts = collections.Counter(agg)
@@ -190,8 +194,6 @@ must be passed to RawDocs")
                     for p in self.tfidf_ranking:
                         f.write("%s,%f\n" % (p[0], p[1]))
 
-        else:
-            raise ValueError("Items must be either \'tokens\' or \'stems\'.")
 
     def rank_remove(self, rank, items, cutoff):
 
@@ -214,7 +216,9 @@ must be passed to RawDocs")
 
         if items == 'tokens':
             self.tokens = list(map(remove, self.tokens))
+        elif items == 'bigrams':
+            self.bigrams = list(map(remove, self.bigrams))
         elif items == 'stems':
             self.stems = list(map(remove, self.stems))
         else:
-            raise ValueError("Items must be either \'tokens\' or \'stems\'.")
+            raise ValueError("Items must be either \'tokens\', \'bigrams\' or \'stems\'.")
