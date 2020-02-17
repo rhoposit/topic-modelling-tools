@@ -149,7 +149,7 @@ must be passed to RawDocs")
         else:
             raise ValueError("Items must be either \'tokens\' or \'stems\'.")
 
-    def term_rank(self, items, print_output=True):
+    def term_rank(self, items):
 
         """
         Calculate corpus-level df and tf-idf scores on either tokens (items =
@@ -186,13 +186,13 @@ must be passed to RawDocs")
         self.tfidf_ranking = sorted(zip(unique_tokens, unsorted_tf_idf),
                                     key=lambda x: x[1], reverse=True)
 
-        if print_output:
-            with codecs.open('df_ranking.csv', 'w', 'utf-8') as f:
-                    for p in self.df_ranking:
-                        f.write("%s,%d\n" % (p[0], p[1]))
-            with codecs.open('tfidf_ranking.csv', 'w', 'utf-8') as f:
-                    for p in self.tfidf_ranking:
-                        f.write("%s,%f\n" % (p[0], p[1]))
+#        if print_output:
+#            with codecs.open('df_ranking.csv', 'w', 'utf-8') as f:
+#                    for p in self.df_ranking:
+#                        f.write("%s,%d\n" % (p[0], p[1]))
+#            with codecs.open('tfidf_ranking.csv', 'w', 'utf-8') as f:
+#                    for p in self.tfidf_ranking:
+#                        f.write("%s,%f\n" % (p[0], p[1]))
 
 
     def rank_remove(self, rank, items, cutoff):
